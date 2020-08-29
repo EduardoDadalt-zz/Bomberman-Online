@@ -22,6 +22,7 @@ const BlockUnbreakable = {
   color: "#696969",
   collide: true,
 };
+
 const Bomb = (power, user) => {
   return {
     id: 2,
@@ -163,7 +164,7 @@ function Explode(bx, by, power) {
           if (game.map[x][by].break) {
             //Its Breakable
             if (game.map[x][by].id == 2 && x != bx) {
-              //É Bomba e não é a bomba que estorou primeiro
+              //Its is bomb
               Explode(x, by, game.map[x][by].power);
             } else {
               ExplodeAnimation(x, by);
@@ -179,11 +180,8 @@ function Explode(bx, by, power) {
     for (let x = bx - 1; x >= bx - power && x >= 0; x--) {
       if (game.map[x]) {
         if (game.map[x][by]) {
-          //Tem Algo
           if (game.map[x][by].break) {
-            //É Quebravel
             if (game.map[x][by].id == 2 && x != bx) {
-              //É Bomba e não é a bomba que estorou primeiro
               Explode(x, by, game.map[x][by].power);
             } else {
               ExplodeAnimation(x, by);
@@ -198,11 +196,8 @@ function Explode(bx, by, power) {
     }
     for (let y = by + 1; y <= by + power && y < game.width + 1; y++) {
       if (game.map[bx][y]) {
-        //Tem Algo
         if (game.map[bx][y].break) {
-          //É Quebravel
           if (game.map[bx][y].id == 2 && y != by) {
-            //É Bomba e não é a bomba que estorou primeiro
             Explode(bx, y, game.map[bx][y].power);
           } else {
             ExplodeAnimation(bx, y);
@@ -216,11 +211,8 @@ function Explode(bx, by, power) {
     }
     for (let y = by - 1; y >= by - power && y >= 0; y--) {
       if (game.map[bx][y]) {
-        //Tem Algo
         if (game.map[bx][y].break) {
-          //É Quebravel
           if (game.map[bx][y].id == 2 && y != by) {
-            //É Bomba e não é a bomba que estorou primeiro
             Explode(bx, y, game.map[bx][y].power);
           } else {
             ExplodeAnimation(bx, y);
@@ -237,13 +229,13 @@ function Explode(bx, by, power) {
 }
 
 function SetSpawn(x, y, g) {
-  if (g.map[x] && g.map[x][y]) g.map[x][y] = Spawn;
+  if (g.map[x] && g.map[x][y]) g.map[x][y] = undefined;
   if (g.map[x]) {
-    if (g.map[x][y + 1]) g.map[x][y + 1] = Spawn;
-    if (g.map[x][y - 1]) g.map[x][y - 1] = Spawn;
+    if (g.map[x][y + 1]) g.map[x][y + 1] = undefined;
+    if (g.map[x][y - 1]) g.map[x][y - 1] = undefined;
   }
-  if (g.map[x + 1] && g.map[x + 1][y]) g.map[x + 1][y] = Spawn;
-  if (g.map[x - 1] && g.map[x - 1][y]) g.map[x - 1][y] = Spawn;
+  if (g.map[x + 1] && g.map[x + 1][y]) g.map[x + 1][y] = undefined;
+  if (g.map[x - 1] && g.map[x - 1][y]) g.map[x - 1][y] = undefined;
   return;
 }
 
@@ -257,17 +249,15 @@ function Game() {
   }
   for (let x = 0; x < height; x++) {
     for (let y = 0; y < width; y++) {
-      g.map[x][y] = BlockBreakable;
       if (x % 2 != 0 && y % 2 != 0) {
         g.map[x][y] = BlockUnbreakable;
-      }
-      if (x == 1 && y == 1) SetSpawn(x, y, g);
-      if (x == 0 && y == width - 1) SetSpawn(x, y, g);
-      if (x == height - 1 && y == 0) SetSpawn(x, y, g);
-      if (x == height - 1 && y == width - 1) SetSpawn(x, y, g);
+      } else g.map[x][y] = BlockBreakable;
     }
   }
-
+  SetSpawn(0, 0, g);
+  SetSpawn(0, width - 1, g);
+  SetSpawn(height - 1, 0, g);
+  SetSpawn(height - 1, width - 1 , g);
   for (let x = 0; x < players * 6; x++) {}
   //PowerUps
   game.map = g.map;

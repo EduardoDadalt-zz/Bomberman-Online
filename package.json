@@ -1,0 +1,25 @@
+{
+  "name": "bomberman-online",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EduardoDadalt/Bomberman-Online.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EduardoDadalt/Bomberman-Online/issues"
+  },
+  "homepage": "https://github.com/EduardoDadalt/Bomberman-Online#readme"
+}
